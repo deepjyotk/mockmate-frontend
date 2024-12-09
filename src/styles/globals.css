@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #3b82f6; /* Blue accent */
+  --danger: #e53e3e;  /* Red for errors */
+  --muted: #718096;   /* Gray for less important text */
+  --font-family: Arial, Helvetica, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #60a5fa; /* Lighter blue for better contrast in dark mode */
+    --danger: #f87171;  /* Lighter red for errors in dark mode */
+    --muted: #a0aec0;   /* Slightly lighter gray for better readability */
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-family);
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: var(--font-family);
+  transition: background-color 0.3s, color 0.3s;
+}

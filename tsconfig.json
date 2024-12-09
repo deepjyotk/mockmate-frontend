@@ -13,15 +13,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "sourceMap": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/datetime/formatToClientTimezone.js"],
   "exclude": ["node_modules"]
 }
