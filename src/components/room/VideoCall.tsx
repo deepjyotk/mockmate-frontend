@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { ZegoInvitationType, ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
 interface VideoCallProps {
   roomId: string;
   userName: string;
   userID: string;
+  onEndCall: () => void; // New prop for end call event
 }
 
 const generateKitToken = async (
@@ -23,14 +24,18 @@ const generateKitToken = async (
   return kitToken;
 };
 
-const VideoCall: React.FC<VideoCallProps> = ({ roomId, userName, userID }) => {
+const VideoCall: React.FC<VideoCallProps> = ({ roomId, userName, userID, onEndCall }) => {
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
+  const zegoInstanceRef = useRef<any>(null); // Reference to the ZegoUIKitPrebuilt instance
 
   useEffect(() => {
     (async () => {
       try {
         const token = await generateKitToken(roomId, userID, userName);
         const zc = ZegoUIKitPrebuilt.create(token);
+        
+        // Store the instance in the ref
+        zegoInstanceRef.current = zc;
 
         if (videoContainerRef.current) {
           zc.joinRoom({
@@ -40,13 +45,26 @@ const VideoCall: React.FC<VideoCallProps> = ({ roomId, userName, userID }) => {
             scenario: {
               mode: ZegoUIKitPrebuilt.VideoConference,
             },
+            onLeaveRoom: () => {
+              console.log('User has left the room');
+              onEndCall();
+            }
           });
         }
       } catch (error) {
         console.error(`Error initializing ZegoUIKit: ${error}`);
       }
     })();
-  }, [roomId, userID, userName]);
+
+    // Cleanup function to leave the room and destroy the Zego instance
+    return () => {
+      if (zegoInstanceRef.current) {
+        console.log('Destroying Zego instance');
+        zegoInstanceRef.current.destroy(); // Use destroy() instead of leaveRoom()
+        zegoInstanceRef.current = null;
+      }
+    };
+  }, [roomId, userID, userName, onEndCall]);
 
   return (
     <div

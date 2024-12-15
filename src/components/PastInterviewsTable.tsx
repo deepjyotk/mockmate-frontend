@@ -28,6 +28,16 @@ const PastInterviewsTable: React.FC<PastInterviewsTableProps> = ({ data }) => {
   }, [data, dispatch]);
 
 
+  const clickQuestion = (questionID: string) => {
+    if (questionID) {
+      const customUrl = `/view-question/${questionID}`;
+      window.open(customUrl, "_blank");
+    } else {
+      console.warn("Went wrong "); 
+    }
+  };
+
+
 
   return (
     <div className="container mx-auto p-8 font-sans">
@@ -47,18 +57,23 @@ const PastInterviewsTable: React.FC<PastInterviewsTableProps> = ({ data }) => {
               results.map((interview) => (
                 <tr key={interview.pastInterviewID} className="odd:bg-white even:bg-gray-50">
                   <td className="border border-gray-300 px-4 py-2">
-                    {new Date(interview.pastInterviewDateAndTime).toLocaleString()}
+                    {interview.pastInterviewDateAndTime}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">{interview.pastInterviewType}</td>
                   <td className="border border-gray-300 px-4 py-2">
-                    <a
-                      href={interview.questionForMe.questionText}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
-                    >
-                      View Question
-                    </a>
+                  <button
+                        onClick={() =>
+                          clickQuestion(
+                            interview.questionForMe
+                              .questionId
+                          )
+                        }
+                        className="text-blue-500 underline hover:text-blue-700"
+                      >
+                        {
+                          interview.questionForMe.questionTitle
+                        }
+                      </button>
                   </td>
                   <td className="border border-gray-300 px-4 py-2">{interview.peerUser.peerUserName}</td>
                 </tr>

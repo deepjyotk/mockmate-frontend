@@ -31,7 +31,7 @@ const Home = async () => {
     
     return (
       <div className="bg-background min-h-screen">
-        <Navbar />
+        <Navbar username={specificPayload.userInfo.username} userProfileUrl={specificPayload.userInfo.userProfileUrl} />
         <HeroSection data={data.payload as InitDataInterviewPayloadModel} />
         <UpcomingInterviewSection data={specificPayload.upcomingInterviews} />
         <PastInterviewsTable data={specificPayload.pastInterviews}   />

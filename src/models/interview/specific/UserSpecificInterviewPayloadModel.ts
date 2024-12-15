@@ -1,9 +1,13 @@
-// src/models/interview/InterviewPayloadModel.ts
 import { PastInterviewsModel } from "./PastInterviewsModel";
 import { UserSpecificUpcomingInterviewModel } from "./UserSpecificUpcomingInterviewModel";
-import { UserSpecificUpcomingInterviewsModel } from "./UserSpecificUpcomingInterviewsModel";
 
 export interface UserSpecificInterviewsPayloadModel {
+  userInfo : UserInfoModel;
   upcomingInterviews: UserSpecificUpcomingInterviewModel[];
   pastInterviews: PastInterviewsModel;
+}
+
+interface    UserInfoModel{
+    username: string;
+    userProfileUrl:string ;
 }

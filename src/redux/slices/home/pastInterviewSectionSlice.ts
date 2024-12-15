@@ -1,5 +1,5 @@
 import { PastInterviewsModel } from "@/models/interview/specific/PastInterviewsModel";
-import { formatToClientTimezone } from "@/utils/datetime/formatToClientTimezone";
+import { convertUTCToLocalTime } from "@/utils/datetime/formatToClientTimezone";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
  interface PastInterviewQuestionForMeState {
     questionId: string;
-    questionText: string;
+    questionTitle: string;
 }
 
 
@@ -65,14 +65,14 @@ export const mapModelToState = (
     limit: models.limit.toString(),
     totalListings: models.totalListings.toString(),
     totalPages: models.totalPages.toString(),
-    results: models.results.map((model) =>{
+    results: models.results.map( (model) =>{
         return {
             pastInterviewID: model.pastInterviewID,
-            pastInterviewDateAndTime: formatToClientTimezone(model.pastInterviewDateAndTime),
+            pastInterviewDateAndTime:  convertUTCToLocalTime(model.pastInterviewDateAndTime),
             pastInterviewType: model.pastInterviewType,
             questionForMe: {
               questionId: model.questionForMe.questionId,
-              questionText: model.questionForMe.questionText,
+              questionTitle: model.questionForMe.questionTitle,
             },
             peerUser: {
               peerUserId: model.peerUser.peerUserId,

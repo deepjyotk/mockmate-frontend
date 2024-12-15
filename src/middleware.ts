@@ -1,35 +1,70 @@
 import { NextResponse, NextRequest } from 'next/server';
 import PUBLIC_ROUTES from './config/publicRoutes';
 
-// Define paths that do not require authentication
-
+// Convert public routes to a Set for faster lookups
+const PUBLIC_ROUTE_SET = new Set(PUBLIC_ROUTES);
 
 export function middleware(request: NextRequest) {
-
   const { pathname } = request.nextUrl;
 
-  if (PUBLIC_ROUTES.includes(pathname)) {
+  // 1️⃣ Allow requests to public routes or static files
+  if (PUBLIC_ROUTE_SET.has(pathname) || isPublicPath(pathname)) {
     return NextResponse.next();
   }
 
 
-  const accessToken =request.cookies.get('accessToken')?.value;
+  // 2️⃣ Get the access token from cookies
+  const accessToken = request.cookies.get('accessToken')?.value;
 
-  // If no access token, redirect to login page
+  // 3️⃣ If access token is not present, redirect to login page with `returnTo` query param
   if (!accessToken) {
-    const loginUrl = new URL('/auth/login', request.url); // Redirect to login
+    const loginUrl = new URL('/auth/login', request.url);
+    loginUrl.searchParams.set('returnTo', request.nextUrl.pathname); // Save the intended URL
     return NextResponse.redirect(loginUrl);
   }
 
+  //  If the pathname is '/auth/logout', delete cookie and redirect to login
+  if (pathname === '/auth/logout') {
+    const loginUrl = new URL('/auth/login', request.url); // 👈 Absolute URL
+    const response = NextResponse.redirect(loginUrl);
 
-  // If token exists, proceed to the requested page
+    // 🔥 Delete accessToken cookie
+    response.cookies.set('accessToken', '', {
+      path: '/', // Clear the cookie for the entire site
+      maxAge: 0,  // Expire the cookie immediately
+    });
+
+    return response;
+  }
+
+
+  // 🟢 If token exists, proceed to the requested page
   return NextResponse.next();
 }
 
-// Configure the middleware to match all routes except public paths
+// 🔥 Utility function to identify paths that should be accessible without auth
+function isPublicPath(pathname: string): boolean {
+  // Allow access to Next.js static files, _next, API auth routes, and other assets
+  return pathname.startsWith('/_next/') || 
+         pathname.startsWith('/static/') || 
+         pathname.startsWith('/public/') || 
+         pathname.includes('.ico') || 
+         pathname.includes('.png') || 
+         pathname.includes('.jpg') || 
+         pathname.includes('.css') || 
+         pathname.includes('.js') || 
+         pathname.startsWith('/auth/login') || 
+         pathname.startsWith('/auth/signup') || 
+         pathname.startsWith('/api/auth');
+}
+
 export const config = {
   matcher: [
-    '/((?!api/auth|auth/login|auth/signup|_next/static|favicon.ico).*)',
-    '/((?!.*\\.).*)' 
+    /**
+     * Explanation:
+     * - Ignore files in _next/static, _next/image, favicon.ico, and all file extensions like .png, .jpg, .svg, etc.
+     * - The path `/(.*)` means apply the middleware to all routes except the ones in the negative lookahead.
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp|ico|css|js|json|txt|woff|woff2|ttf|otf|map)).*)',
   ],
 };

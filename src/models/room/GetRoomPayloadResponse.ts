@@ -4,12 +4,15 @@ export interface GetRoomPayloadResponse {
     roomDetails: {
       roomIDHash: string;
       interviewID: number;
+      interviewStartTime: string;
+      interviewEndTime: string ;
     };
     userDetails: {
       userID: number;
       userName: string;
       fullName: string;
       interviewRole: 'Interviewer' | 'Interviewee';
+ 
     };
     peerInfo: {
       peerRole: 'Interviewer' | 'Interviewee';

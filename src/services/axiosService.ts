@@ -9,9 +9,10 @@ import { SuccessfulResponseModel } from "@/models/global/SuccessResponseModel";
 import { ExceptionResponseModel } from "@/models/global/ExceptionResponseModel";
 import { ScheduleInterviewRequestModel } from "@/models/interview/init/ScheduleInterviewRequestModel";
 import { Empty } from "@/types/Empty";
+import { FeedbackRequestModel } from "@/models/feedback/FeedbackRequestModel";
 
 export const axiosPostRequest = async (endpoint : string,  credentials : LoginRequest 
-  | SignupRequest | ScheduleInterviewRequestModel | Empty ): Promise<ResponseModel > => {
+  | SignupRequest | ScheduleInterviewRequestModel | Empty | FeedbackRequestModel ): Promise<ResponseModel > => {
   try {
     const response = await axiosClient.post<SuccessfulResponseModel>(endpoint, credentials);
     return response.data as SuccessfulResponseModel;

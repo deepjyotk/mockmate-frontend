@@ -33,7 +33,7 @@ const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => 
   let fileContent: string | null = null;
 
   try {
-    const fileRes = await fetch(question.questionTextS3Url, {
+    const fileRes = await fetch(question.questionS3Url, {
       method: "GET",
       headers: {
         // Include any necessary headers, such as authentication tokens
@@ -93,7 +93,7 @@ const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => 
         <div className="mt-4">
           {isPDF ? (
             <iframe
-              src={question.questionTextS3Url}
+              src={question.questionS3Url}
               width="100%"
               height="600px"
               title="Question Content"
@@ -101,7 +101,7 @@ const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => 
             ></iframe>
           ) : isImage ? (
             <img
-              src={question.questionTextS3Url}
+              src={question.questionS3Url}
               alt={question.questionTitle}
               className="max-w-full h-auto"
             />
@@ -120,7 +120,7 @@ const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => 
             </pre>
           ) : (
             <a
-              href={question.questionTextS3Url}
+              href={question.questionS3Url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500 underline"
