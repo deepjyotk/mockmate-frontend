@@ -17,7 +17,7 @@ export const axiosPostRequest = async (endpoint : string,  credentials : LoginRe
     const response = await axiosClient.post<SuccessfulResponseModel>(endpoint, credentials);
     return response.data as SuccessfulResponseModel;
   } catch (error: any) {
-    console.error("Error during signup:", error);
+    console.error("Error during:", error);
     return error.response.data as ExceptionResponseModel ;
   }
 };

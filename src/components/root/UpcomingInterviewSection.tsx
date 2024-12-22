@@ -9,7 +9,7 @@ import {
   decrementAllCountdowns,
 } from "@/redux/slices/home/upcomingInterviewSectionSlice";
 import { UserSpecificUpcomingInterviewModel } from "@/models/interview/specific/UserSpecificUpcomingInterviewModel";
-import ErrorAlertBanner from "./exception/alert-banners/ErrorAlertBanner";
+import ErrorAlertBanner from "../exception/alert-banners/ErrorAlertBanner";
 
 interface UpcomingInterviewSectionProps {
   data: UserSpecificUpcomingInterviewModel[];

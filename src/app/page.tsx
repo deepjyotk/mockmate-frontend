@@ -1,13 +1,13 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import PastInterviewsTable from "@/components/PastInterviewsTable";
+import Navbar from "@/components/root/Navbar";
+import PastInterviewsTable from "@/components/root/PastInterviewSection/PastInterviewsTable";
 import serverComponentFetchRequest from "@/services/serverComponentFetchRequest";
 import MaintenancePage from "@/components/exception/MaintainancePage";
 import { InitDataInterviewPayloadModel } from "@/models/interview/init/InterviewPayloadModel";
 import { ExceptionResponseModel } from "@/models/global/ExceptionResponseModel";
 import { SuccessfulResponseModel } from "@/models/global/SuccessResponseModel";
 import { UserSpecificInterviewsPayloadModel } from "@/models/interview/specific/UserSpecificInterviewPayloadModel";
-import UpcomingInterviewSection from "@/components/UpcomingInterviewSection";
+import UpcomingInterviewSection from "@/components/root/UpcomingInterviewSection";
+import HeroSection from "@/components/HeroSection";
 
 const fetchInitData = async (): Promise<SuccessfulResponseModel | ExceptionResponseModel> => {
     const response = await serverComponentFetchRequest(`users/init_data`);

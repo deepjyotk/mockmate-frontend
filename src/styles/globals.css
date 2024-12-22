@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "react-resizable/css/styles.css"; /* added by me */
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -32,4 +35,12 @@ body {
 button {
   font-family: var(--font-family);
   transition: background-color 0.3s, color 0.3s;
+}
+
+.EditorContent {
+  white-space: pre-wrap; /* Preserve spacing */
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  color: #dcdcdc; /* Light grey text */
+  background-color: #1e1e1e; /* Dark editor background */
 }

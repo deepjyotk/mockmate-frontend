@@ -111,10 +111,10 @@ export const mapModelToState = (
     reverseCountdownText: '',
     interviewId: model.interviewId.toString(),
     interviewType: {
-      durationMinutes: model.interviewType.durationMinutes.toString(),
-      interviewTypeDescription: model.interviewType.interviewTypeDescription.toString(),
-      interviewTypeId: model.interviewType.interviewTypeId.toString(),
-      interviewTypeTitle: model.interviewType.interviewTypeTitle,
+      durationMinutes: model.interviewType.toString(),
+      interviewTypeDescription: model.interviewType.durationMinutes.toString(),
+      interviewTypeId: model.interviewType.id.toString(),
+      interviewTypeTitle: model.interviewType.type,
     },
     interviewDateAndTime: formatToClientTimezone( model.interviewDateAndTime ),
     upcomingInterviewQuestionForPeer: {
@@ -174,7 +174,7 @@ const upcomingInterviewSectionSlice = createSlice({
       .addCase(viewPeerQuestion.fulfilled, (state, action) => {
         state.status = Status.Success;
          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-         action.payload.questionTextS3Url ; // TODO: this contains the s3 of the file, and I want to open in the new tab with custom url in the tab, and not show the s3 url, how to do?
+         action.payload.questionS3Url ; // TODO: this contains the s3 of the file, and I want to open in the new tab with custom url in the tab, and not show the s3 url, how to do?
         console.log("Fetched Question:", action.payload);
       })
       .addCase(viewPeerQuestion.rejected, (state, action) => {

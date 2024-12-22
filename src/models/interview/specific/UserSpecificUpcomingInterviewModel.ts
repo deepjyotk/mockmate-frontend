@@ -1,12 +1,11 @@
+import { InterviewTypeModel } from "@/models/home/InterviewTypeModel";
 import { UpcomingInterviewQuestionForPeerModel } from "./UpcomingInterviewQuestionForPeerModel";
-import { UserSpecificInterviewsPayloadModel } from "./UserSpecificInterviewPayloadModel";
-import { UserSpecificInterviewTypeModel } from "./UserSpecificInterviewTypeModel";
 
 
-// TODO : this file is taking wrong
+
 export interface UserSpecificUpcomingInterviewModel {
   interviewId: number;
-  interviewType: UserSpecificInterviewTypeModel;
+  interviewType: InterviewTypeModel;
   interviewDateAndTime: string ;
   upcomingInterviewQuestionForPeer: UpcomingInterviewQuestionForPeerModel | null;
   }
