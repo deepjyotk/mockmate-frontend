@@ -128,7 +128,7 @@ export function CollaborativeEditor({ setOutput }: CollaborativeEditorProps) {
     throw new Error("Submission timed out.");
   };
 
-  const handleApiError = (error: any) => {
+  const handleApiError = (error) => {
     if (error.response) {
       const { status, data } = error.response;
       setOutput(`Error ${status}: ${data?.message || 'An unexpected error occurred'}`);

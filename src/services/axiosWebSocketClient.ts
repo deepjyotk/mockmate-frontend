@@ -47,7 +47,6 @@ axiosWebSocketServiceClient.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      const { status } = error.response;
       // Handle specific status codes if needed
       // Example:
       // if (status === 401) {

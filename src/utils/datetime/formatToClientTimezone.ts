@@ -1,8 +1,5 @@
-import { format, fromZonedTime, toDate, zonedTimeToUtc } from "date-fns-tz";
-import { parse} from "date-fns";
+import { format, toDate } from "date-fns-tz";
 import { DateTime } from 'luxon';
-
-import { toZonedTime } from "date-fns-tz";
 
 /**
  * Convert UTC datetime to client's timezone and format.
@@ -10,7 +7,7 @@ import { toZonedTime } from "date-fns-tz";
  * @param clientTimeZone - The client's timezone (e.g., 'America/New_York').
  * @returns Formatted date string in "27th Aug, 2:00PM" format.
  */
-export const formatToClientTimezone = (utcDate) => {
+export const formatToClientTimezone = (utcDate: string) => {
     const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Detect client's timezone
 
   // Parse the UTC date string into a Date object
@@ -59,7 +56,7 @@ export function convertUTCToLocalTime(utcTime: string): string {
   }
 }
 
-export const convertToUTC = (clientDate) => {
+export const convertToUTC = (clientDate: string) => {
   const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   // Remove ordinal suffix (e.g., 'th', 'st', 'nd', 'rd')

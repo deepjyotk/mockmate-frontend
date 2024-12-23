@@ -46,11 +46,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      const { status } = error.response;
-      // if (status === 404 || status === 401) {
-      //   // If token is expired or invalid, redirect to login page
-      //   // Router.push('/login');
-      // }
+      console.log(error.response);
     }
     return Promise.reject(error);
   }

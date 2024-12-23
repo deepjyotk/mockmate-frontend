@@ -68,6 +68,7 @@
     "@types/js-beautify": "^1.14.3",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/luxon": "^3.4.2",
     "@types/node": "^20.17.6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18",

@@ -20,7 +20,7 @@ export const signupUser = createAsyncThunk<
     }
     
     return data.payload as SignupResponseModel ;
-  } catch (error: any) {
+  } catch  {
     return rejectWithValue("Signup failed");
   }
 });

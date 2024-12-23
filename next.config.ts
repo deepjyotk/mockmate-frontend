@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-const fs = require('fs');
+import dotenv from 'dotenv';
+import fs from 'fs';
 
 // Determine the environment
 const environment = process.env.NODE_ENV || 'development';
@@ -16,6 +16,8 @@ if (fs.existsSync(envFile)) {
   console.warn('No .env file found!');
 }
 
-module.exports = {
+const nextConfig = {
   reactStrictMode: true,
 };
+
+export default nextConfig;

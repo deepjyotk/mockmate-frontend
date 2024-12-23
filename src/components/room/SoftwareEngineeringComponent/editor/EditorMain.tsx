@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { ProblemStatement } from '@/components/room/SoftwareEngineeringComponent/editor/ProblemStatement';
 import { OutputSection } from '@/components/room/SoftwareEngineeringComponent/editor/OutputSection';
 import { CollaborativeEditor } from '@/components/room/SoftwareEngineeringComponent/editor/CollaborabativeEditor';
 import {
@@ -30,17 +29,17 @@ export default function EditorMain() {
   const startYRef = useRef<number>(0);
   const startBottomHeightRef = useRef<number>(bottomHeight);
 
-  /**
-   * onMouseDown for the vertical divider
-   */
-  const onMouseDownVertical = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      isDraggingVertical.current = true;
-      startXRef.current = e.clientX;
-      startLeftWidthRef.current = leftWidth;
-    },
-    [leftWidth]
-  );
+  // /**
+  //  * onMouseDown for the vertical divider
+  //  */
+  // const onMouseDownVertical = useCallback(
+  //   (e: React.MouseEvent<HTMLDivElement>) => {
+  //     isDraggingVertical.current = true;
+  //     startXRef.current = e.clientX;
+  //     startLeftWidthRef.current = leftWidth;
+  //   },
+  //   [leftWidth]
+  // );
 
   /**
    * onMouseDown for the horizontal divider

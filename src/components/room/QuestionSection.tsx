@@ -39,7 +39,7 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({ question }) => {
 
         const text = await response.text();
         setMarkdownContent(text);
-      } catch (err: any) {
+      } catch (err) {
         if (err.name !== 'AbortError') {
           setError(err.message || 'An unexpected error occurred.');
         }
@@ -78,9 +78,9 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({ question }) => {
         remarkPlugins={[remarkGfm]}
         components={{
           // Customize markdown elements if needed
-          h1: ({ node, ...props }) => <h1 style={{ color: '#333' }} {...props} />,
-          h2: ({ node, ...props }) => <h2 style={{ color: '#444' }} {...props} />,
-          a: ({ node, ...props }) => (
+          h1: ({  ...props }) => <h1 style={{ color: '#333' }} {...props} />,
+          h2: ({  ...props }) => <h2 style={{ color: '#444' }} {...props} />,
+          a: ({  ...props }) => (
             <a
               style={{ color: '#007bff' }}
               target="_blank"

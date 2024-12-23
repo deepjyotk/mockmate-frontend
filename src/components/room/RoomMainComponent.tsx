@@ -1,7 +1,6 @@
 // RoomMainComponent.js
 "use client";
 
-import { useRef } from "react";
 import { GetRoomPayloadResponse } from "@/models/room/GetRoomPayloadResponse";
 import BehavioralInterviewComponent from "./BehavioralInterviewComponent/BehavioralInterviewComponent";
 import SoftwareEngineeringComponent from "./SoftwareEngineeringComponent/SoftwareEngineeringComponent";
@@ -23,9 +22,9 @@ const RoomMainComponent = ({
   handleMouseDown,
   handleEndCall,
 }: RoomMainComponentProps) => {
-  const leftPanelRef = useRef<HTMLDivElement | null>(null);
-  const rightPanelRef = useRef<HTMLDivElement | null>(null);
-  const dividerRef = useRef<HTMLDivElement | null>(null);
+//   const leftPanelRef = useRef<HTMLDivElement | null>(null);
+//   const rightPanelRef = useRef<HTMLDivElement | null>(null);
+//   const dividerRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <main className="mt-16">

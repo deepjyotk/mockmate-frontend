@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import SockJS from "sockjs-client";
-import { CompatClient, Stomp } from "@stomp/stompjs";
+import {  Stomp } from "@stomp/stompjs";
 
 function WebSocketClient() {
   const [nickname, setNickname] = useState("");

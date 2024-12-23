@@ -128,7 +128,7 @@ export const getSubmissionResult = async (token: string): Promise<Judge0Data> =>
         "X-RapidAPI-Key": API_KEY,
       },
     });
-    var apiResponse : Judge0Data= response.data ;
+    const apiResponse : Judge0Data= response.data ;
 
 
     // If status is 400, throw error to stop polling

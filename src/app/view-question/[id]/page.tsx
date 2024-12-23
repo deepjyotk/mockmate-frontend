@@ -1,6 +1,5 @@
-// app/view-question/[id]/page.tsx
-
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import serverComponentFetchRequest from "@/services/serverComponentFetchRequest";
 import { QuestionResponsePayloadModel } from "@/models/question/particular/QuestionResponsePayloadModel";
 import ReactMarkdown from "react-markdown";
@@ -81,7 +80,7 @@ const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => 
         <ul className="list-disc list-inside">
           {question.companies.map((company) => (
             <li key={company.companyId}>
-              Company ID: {company.companyId}, Frequency Asked: {company.frequencyAsked}, Last Asked:{" "}
+              Company ID: {company.companyId}, Frequency Asked: {company.frequencyAsked}, Last Asked: {" "}
               {company.lastAskedDate ? new Date(company.lastAskedDate).toLocaleString() : "N/A"}
             </li>
           ))}
@@ -100,10 +99,12 @@ const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => 
               className="border-0"
             ></iframe>
           ) : isImage ? (
-            <img
+            <Image
               src={question.questionS3Url}
               alt={question.questionTitle}
-              className="max-w-full h-auto"
+              layout="responsive"
+              width={700} // Adjust as needed
+              height={400} // Adjust as needed
             />
           ) : isMarkdown && fileContent ? (
             <div className="prose">

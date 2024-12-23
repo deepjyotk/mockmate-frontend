@@ -25,11 +25,10 @@ const VideoCall: React.FC<VideoCallProps> = ({
   roomId,
   userName,
   userID,
-  interviewTypeModel: InterviewTypeModel,
   onEndCall,
 }) => {
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
-  const zegoInstanceRef = useRef<any>(null);
+  const zegoInstanceRef = useRef(null);
 
   useEffect(() => {
     const initializeZego = async () => {

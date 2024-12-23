@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import { PastInterviewsModel } from "@/models/interview/specific/PastInterviewsModel";
 import {
@@ -18,18 +18,13 @@ interface PastInterviewsTableProps {
 
 const PastInterviewsTable: React.FC<PastInterviewsTableProps> = ({ data }) => {
   const dispatch = useAppDispatch();
-  const {
-    page,
-    limit,
-    totalListings,
-    totalPages,
-    results,
-    status,
-    error,
-  } = useAppSelector((state) => state.pastInterviewSection);
+  const { results, status } = useAppSelector(
+    (state) => state.pastInterviewSection
+  );
 
   const [showModal, setShowModal] = useState(false);
-  const [selectedFeedback, setSelectedFeedback] = useState<FeedbackByPeerState | null>(null);
+  const [selectedFeedback, setSelectedFeedback] =
+    useState<FeedbackByPeerState | null>(null);
 
   useEffect(() => {
     if (data) {
@@ -116,12 +111,18 @@ const PastInterviewsTable: React.FC<PastInterviewsTableProps> = ({ data }) => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {interview.pastInterviewType}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:underline">
-                      <button
-                        onClick={() => clickQuestion(interview.questionForMe.questionId)}
-                      >
-                        {interview.questionForMe.questionTitle}
-                      </button>
+                    <td>
+                      {interview.questionForMe ? (
+                        <motion.button
+                          onClick={() => {
+                            if (interview.questionForMe?.questionId) {
+                              clickQuestion(interview.questionForMe.questionId);
+                            }
+                          }}
+                        >
+                          {interview.questionForMe.questionTitle || ""}
+                        </motion.button>
+                      ) : null}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                       {interview.peerUser.peerUserName}
@@ -131,14 +132,18 @@ const PastInterviewsTable: React.FC<PastInterviewsTableProps> = ({ data }) => {
                         interview.feedbackByPeer ? (
                           <motion.button
                             className="text-blue-500 underline hover:text-blue-700"
-                            onClick={() => openFeedbackModal(interview.feedbackByPeer!)}
+                            onClick={() =>
+                              openFeedbackModal(interview.feedbackByPeer!)
+                            }
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
                             View Feedback
                           </motion.button>
                         ) : (
-                          <span className="text-gray-500">Waiting for Peer&apos;s Feedback</span>
+                          <span className="text-gray-500">
+                            Waiting for Peer&apos;s Feedback
+                          </span>
                         )
                       ) : (
                         <motion.button
@@ -184,10 +189,7 @@ const PastInterviewsTable: React.FC<PastInterviewsTableProps> = ({ data }) => {
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <FeedbackModal
-                feedback={selectedFeedback}
-                onClose={closeModal}
-              />
+              <FeedbackModal feedback={selectedFeedback} onClose={closeModal} />
             </motion.div>
           </motion.div>
         )}

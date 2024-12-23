@@ -20,10 +20,8 @@ const fetchRoomDetails = async (interviewId: string, roomId: string) => {
   return res;
 };
 
-const InterviewPage = async ({ params, searchParams }: { params: Params; searchParams: SearchParams }) => {
+const InterviewPage = async ({ params }: { params: Params; searchParams: SearchParams }) => {
   const { roomId, interviewId } = params;
-  const { role } = searchParams;
-
 
   const data = await fetchRoomDetails(interviewId, roomId);
 
