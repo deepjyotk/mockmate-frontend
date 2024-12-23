@@ -10,6 +10,7 @@ import {
 } from "@/redux/slices/home/upcomingInterviewSectionSlice";
 import { UserSpecificUpcomingInterviewModel } from "@/models/interview/specific/UserSpecificUpcomingInterviewModel";
 import ErrorAlertBanner from "../exception/alert-banners/ErrorAlertBanner";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface UpcomingInterviewSectionProps {
   data: UserSpecificUpcomingInterviewModel[];
@@ -19,8 +20,6 @@ const UpcomingInterviewSection: React.FC<UpcomingInterviewSectionProps> = ({
   data,
 }) => {
   const dispatch = useAppDispatch();
-
-
 
   const { upcomingInterviews, status, error } = useAppSelector(
     (state) => state.upcomingInterviewSection
@@ -35,32 +34,36 @@ const UpcomingInterviewSection: React.FC<UpcomingInterviewSectionProps> = ({
 
   useEffect(() => {
     const timer = setInterval(() => {
-      upcomingInterviews.forEach(() => {
-        dispatch(decrementAllCountdowns());
-      });
+      dispatch(decrementAllCountdowns());
     }, 1000);
 
-    return () => clearInterval(timer); // Cleanup on component unmount
-  }, [dispatch, upcomingInterviews]);
+    return () => clearInterval(timer);
+  }, [dispatch]);
 
   const clickQuestion = (questionID: string) => {
     if (questionID) {
       const customUrl = `/view-question/${questionID}`;
       window.open(customUrl, "_blank");
     } else {
-      console.warn("Went wrong "); 
+      console.warn("Something went wrong");
     }
   };
   const clickJoinInterview = (interviewId: string) => {
-    if(interviewId){
-      const customUrl = `/waiting-room/${interviewId}`; 
+    if (interviewId) {
+      const customUrl = `/waiting-room/${interviewId}`;
       window.location.href = customUrl;
     }
   };
 
   return (
-    <div className="container mx-auto p-8 font-sans">
-      <h2 className="text-2xl font-bold text-center mb-6">
+    <motion.div
+      className="container mx-auto p-8 font-sans"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <h2 className="text-3xl font-bold text-center mb-6 text-primary">
         Upcoming Interviews
       </h2>
 
@@ -74,97 +77,89 @@ const UpcomingInterviewSection: React.FC<UpcomingInterviewSectionProps> = ({
 
       {/* Display the Table Regardless of Status (but content may vary) */}
       <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse border border-gray-300">
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-4 py-2 text-left">
+            <tr className="bg-blue-100">
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
                 Type
               </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
                 Date & Time
               </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
                 Question For Peer
               </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">
+                Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {upcomingInterviews.length > 0 ? (
-              upcomingInterviews.map((interview) => (
-                <tr
-                  key={interview.interviewId}
-                  className="odd:bg-white even:bg-gray-50"
-                >
-                  <td className="border border-gray-300 px-4 py-2">
-                    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
-                      {interview.interviewType.interviewTypeTitle}
-                    </span>
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {interview.interviewDateAndTime}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    { interview.upcomingInterviewQuestionForPeer
-                            .questionTitle !="TBA"  ? (
-                      <button
-                        onClick={() =>
-                          clickQuestion(
-                            interview.upcomingInterviewQuestionForPeer
-                              .questionID
-                          )
-                        }
-                        className="text-blue-500 underline hover:text-blue-700"
-                      >
-                        {
-                          interview.upcomingInterviewQuestionForPeer
-                            .questionTitle
-                        }
-                      </button>
-                    ) : (
-                      "TBA"
-                    )}
-                  </td>
-
-                  <td className="border border-gray-300 px-4 py-2">
-                    {interview.reverseCountdownText === "Join Interview" ? (
-                      <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-                        onClick={() => clickJoinInterview(interview.interviewId) }
-                      >
-                        {interview.reverseCountdownText}
-                      </button>
-                    ) : (
-                      <span>{interview.reverseCountdownText}</span>
-                    )}
+            <AnimatePresence>
+              {upcomingInterviews.length > 0 ? (
+                upcomingInterviews.map((interview) => (
+                  <motion.tr
+                    key={interview.interviewId}
+                    className="border-t"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-200 text-blue-800">
+                        {interview.interviewType.interviewTypeTitle}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      {interview.interviewDateAndTime}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:underline">
+                      {interview.upcomingInterviewQuestionForPeer.questionTitle !== "TBA" ? (
+                        <button
+                          onClick={() =>
+                            clickQuestion(
+                              interview.upcomingInterviewQuestionForPeer.questionID
+                            )
+                          }
+                        >
+                          {interview.upcomingInterviewQuestionForPeer.questionTitle}
+                        </button>
+                      ) : (
+                        "TBA"
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                      {interview.reverseCountdownText === "Join Interview" ? (
+                        <motion.button
+                          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => clickJoinInterview(interview.interviewId)}
+                        >
+                          {interview.reverseCountdownText}
+                        </motion.button>
+                      ) : (
+                        <span className="text-gray-500">{interview.reverseCountdownText}</span>
+                      )}
+                    </td>
+                  </motion.tr>
+                ))
+              ) : status === Status.Success && upcomingInterviews.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No upcoming interviews available.
                   </td>
                 </tr>
-              ))
-            ) : status === Status.Success && upcomingInterviews.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={4}
-                  className="border border-gray-300 px-4 py-2 text-center text-gray-500"
-                >
-                  No upcoming interviews available.
-                </td>
-              </tr>
-            ) : (
-              // Optionally, you can render nothing or a placeholder when not in success state
-              <tr>
-                <td
-                  colSpan={4}
-                  className="border border-gray-300 px-4 py-2 text-center text-gray-500"
-                >
-                </td>
-              </tr>
-            )}
+              ) : null}
+            </AnimatePresence>
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

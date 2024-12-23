@@ -1,19 +1,20 @@
 'use client';
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // Use useRouter from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
-interface NavbarProps{
-  username: string ;
+interface NavbarProps {
+  username: string;
   userProfileUrl: string;
 }
 
-const Navbar: React.FC<NavbarProps> = (props) => {
+const Navbar: React.FC<NavbarProps> = ({ username, userProfileUrl }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const router = useRouter(); // For redirecting to the login page
-  
+  const router = useRouter();
+
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
   };
@@ -24,12 +25,6 @@ const Navbar: React.FC<NavbarProps> = (props) => {
 
   const handleLogout = async () => {
     try {
-      // Call the logout endpoint
-      // await fetch('/api/logout', { 
-      //   method: 'POST' 
-      // });
-      
-      // Redirect to login page
       router.replace('/auth/logout');
     } catch (error) {
       console.error('Failed to log out:', error);
@@ -37,61 +32,103 @@ const Navbar: React.FC<NavbarProps> = (props) => {
   };
 
   return (
-    <nav className="bg-white shadow-md p-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-primary">MockMate</h1>
-        <ul className="flex space-x-4">
-          {/* Uncomment the links below if needed */}
-          {/* <Link href="/" className="text-foreground hover:text-primary">Courses</Link>
-          <Link href="/" className="text-foreground hover:text-primary">Questions</Link>
-          <Link href="/" className="text-foreground hover:text-primary">Peer Mocks</Link> */}
-        </ul>
-        {/* Profile Section */}
-        <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="flex items-center space-x-2 text-foreground hover:text-primary"
-          >
-            {props.userProfileUrl ? (
+    <motion.nav
+      className="bg-white shadow-md fixed w-full z-50"
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo Section */}
+          <div className="flex-shrink-0 flex items-center">
+            <Link href="/" className="flex items-center">
+              {/* Replace '/path-to-logo.png' with your actual logo path */}
               <Image
-                src={props.userProfileUrl} 
-                alt="Profile"
-                width={32} 
-                height={32} 
-                className="w-8 h-8 rounded-full"
+                src="/logo.png"
+                alt="MockMate Logo"
+                width={40}
+                height={40}
+                className="mr-3"
               />
-            ) : (
-              <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-500 text-white font-bold">
-                {getInitial(props.username)}
-              </div>
-            )}
-            <span className="hidden sm:block">{props.username}</span>
-          </button>
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
-              <Link
-                href="/profile"
-                className="block px-4 py-2 text-foreground hover:bg-gray-100"
+              <span className="text-2xl font-bold text-primary">MockMate</span>
+            </Link>
+          </div>
+
+          {/* Navigation Links
+          <div className="hidden md:flex space-x-6">
+            <Link href="/" className="text-gray-700 hover:text-primary transition duration-300">
+              Home
+            </Link>
+            <Link href="/courses" className="text-gray-700 hover:text-primary transition duration-300">
+              Courses
+            </Link>
+            <Link href="/questions" className="text-gray-700 hover:text-primary transition duration-300">
+              Questions
+            </Link>
+            <Link href="/peer-mocks" className="text-gray-700 hover:text-primary transition duration-300">
+              Peer Mocks
+            </Link>
+          </div> */}
+
+          {/* Profile Section */}
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="flex items-center space-x-2 text-gray-700 hover:text-primary focus:outline-none transition duration-300"
+              aria-haspopup="true"
+              aria-expanded={dropdownOpen}
+            >
+              {userProfileUrl ? (
+                <Image
+                  src={userProfileUrl}
+                  alt="Profile"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-500 text-white font-bold">
+                  {getInitial(username)}
+                </div>
+              )}
+              <span className="hidden sm:block">{username}</span>
+              <svg
+                className={`w-4 h-4 transition-transform duration-300 ${
+                  dropdownOpen ? "transform rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Profile
-              </Link>
-              {/* <Link
-                href="/settings"
-                className="block px-4 py-2 text-foreground hover:bg-gray-100"
-              >
-                Settings
-              </Link> */}
-              <button
-                onClick={handleLogout}
-                className="block w-full text-left px-4 py-2 text-foreground hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          )}
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <AnimatePresence>
+              {dropdownOpen && (
+                <motion.div
+                  className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-10"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link href="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

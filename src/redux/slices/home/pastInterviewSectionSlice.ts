@@ -33,7 +33,7 @@ export interface PastInterviewState {
     pastInterviewDateAndTime: string;
     pastInterviewType: string;
     feedbackGiven: boolean; // NEW PROPERTY
-    questionForMe: PastInterviewQuestionForMeState;
+    questionForMe?: PastInterviewQuestionForMeState ;
     peerUser: PeerUserState;
     feedbackByPeer?: FeedbackByPeerState ;
     roomIDHash: string;
@@ -97,8 +97,8 @@ export const mapModelToState = (
         feedbackGiven: model.feedbackGiven, // MAP FEEDBACK
         feedbackByPeer: model.feedbackByPeer? model2stateFeedback(model.feedbackByPeer):undefined,
         questionForMe: {
-          questionId: model.questionForMe.questionId,
-          questionTitle: model.questionForMe.questionTitle,
+          questionId: model.questionForMe?.questionId,
+          questionTitle: model.questionForMe?.questionTitle,
         },
         peerUser: {
           peerUserId: model.peerUser.peerUserId,

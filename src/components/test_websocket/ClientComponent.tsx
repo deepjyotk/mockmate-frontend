@@ -10,7 +10,7 @@ function WebSocketClient() {
   const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:9090/ws");
+    const socket = new SockJS("http://localhost:8081/ws");
     const client = Stomp.over(socket);
 
     client.connect({}, () => {
