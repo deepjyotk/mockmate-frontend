@@ -20,7 +20,17 @@ const fetchRoomDetails = async (interviewId: string, roomId: string) => {
   return res;
 };
 
-const InterviewPage = async ({ params }: { params: Params; searchParams: SearchParams }) => {
+const InterviewPage = async ({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: {
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
+}) => {
+  // Resolve promises
+  const params = await paramsPromise;
+  const searchParams = await searchParamsPromise;
+
   const { roomId, interviewId } = params;
 
   const data = await fetchRoomDetails(interviewId, roomId);
@@ -34,13 +44,11 @@ const InterviewPage = async ({ params }: { params: Params; searchParams: SearchP
 
   return (
     <div className="min-h-screen bg-gray-100">
-      
-        <InterviewLayout
-          roomId={roomId}
-          interviewId={interviewId}
-          roomPayload={roomPayload}
-        />
-  
+      <InterviewLayout
+        roomId={roomId}
+        interviewId={interviewId}
+        roomPayload={roomPayload}
+      />
     </div>
   );
 };
