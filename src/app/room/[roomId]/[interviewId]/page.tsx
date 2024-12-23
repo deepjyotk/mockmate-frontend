@@ -22,14 +22,13 @@ const fetchRoomDetails = async (interviewId: string, roomId: string) => {
 
 const InterviewPage = async ({
   params: paramsPromise,
-  searchParams: searchParamsPromise,
+  // searchParams: searchParamsPromise,
 }: {
   params: Promise<Params>;
   searchParams: Promise<SearchParams>;
 }) => {
   // Resolve promises
   const params = await paramsPromise;
-  const searchParams = await searchParamsPromise;
 
   const { roomId, interviewId } = params;
 
