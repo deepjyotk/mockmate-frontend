@@ -1,3 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "no-console": "off", 
+    "react/no-unescaped-entities": "off", 
+    "react/jsx-props-no-spreading": "warn" 
+  },
+  "ignorePatterns": ["node_modules/", "dist/", "out/"], 
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true 
+  }
 }
