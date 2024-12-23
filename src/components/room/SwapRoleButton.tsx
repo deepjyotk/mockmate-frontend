@@ -3,13 +3,14 @@
 import { useRouter } from 'next/navigation';
 
 
-const SwapRoleButton = ({role}) => {
+const SwapRoleButton = ({role}:any) => {
   const router = useRouter(); // Make sure it's inside a React component
   
   const handleClick = () => {
     const newRole = role === 'Interviewer' ? 'Interviewee' : 'Interviewer';
     const currentPath = window.location.pathname; 
-    router.push(`${currentPath}?role=${newRole}`, undefined, { shallow: true });
+    //removed shallow:True
+    router.push(`${currentPath}?role=${newRole}`, undefined);
   };
 
   return (

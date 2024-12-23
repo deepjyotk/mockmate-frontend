@@ -6,17 +6,22 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm"; // For GitHub Flavored Markdown
 import rehypeSanitize from "rehype-sanitize"; // For sanitizing HTML
 
-interface ViewQuestionPageProps {
-  params: {
-    id: string;
-  };
-}
+// interface ViewQuestionPageProps {
+//   params: {
+//     id: string;
+//   };
+// }
 
-const ViewQuestionPage: React.FC<ViewQuestionPageProps> = async ({ params }) => {
-  const { id } = params;
+interface Params {
+  id: string; 
+}
+const ViewQuestionPage = async ({params: promiseParams}: {
+  params: Promise<Params>;
+}) => {
+  const params  = (await promiseParams) ;
 
   // Fetch the question data from the backend API
-  const res = await serverComponentFetchRequest(`questions/${id}`, {
+  const res = await serverComponentFetchRequest(`questions/${params.id}`, {
     cache: "no-store",
   });
 

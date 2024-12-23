@@ -28,7 +28,7 @@ const VideoCall: React.FC<VideoCallProps> = ({
   onEndCall,
 }) => {
   const videoContainerRef = useRef<HTMLDivElement | null>(null);
-  const zegoInstanceRef = useRef(null);
+  const zegoInstanceRef = useRef<ReturnType<typeof ZegoUIKitPrebuilt.create> | null>(null);
 
   useEffect(() => {
     const initializeZego = async () => {

@@ -1,4 +1,4 @@
-import { InterviewTypeModel } from "./InterviewTypeModel";
+import { InterviewTypeModel } from "@/models/home/InterviewTypeModel";
 import { UpcomingInterviewQuestionForPeerModel } from "../specific/UpcomingInterviewQuestionForPeerModel";
 
 export interface UpcomingInterviewModel {

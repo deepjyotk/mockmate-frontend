@@ -33,8 +33,8 @@ const RoomMainComponent = ({
           roomId={roomId}
           roomPayload={roomPayload}
           isInterviewerRole={isInterviewerRole}
-          dividerPosition={dividerPosition}
-          handleMouseDown={handleMouseDown}
+          
+          
           handleEndCall={handleEndCall}
         />
       ) : (

@@ -147,7 +147,7 @@ const upcomingInterviewSectionSlice = createSlice({
     decrementAllCountdowns: (state) => {
         state.upcomingInterviews.forEach((interview) => {
           const utcTime = convertToUTC(interview.interviewDateAndTime);
-          const remainingSeconds = getDifferenceInSeconds(utcTime);
+          const remainingSeconds = getDifferenceInSeconds(utcTime!);
           if (remainingSeconds > 0) {
             interview.counter = remainingSeconds.toString();
             if (remainingSeconds <= REMAINING_TIMING_DIFF_STARTS && remainingSeconds> JOIN_INTERVIEW_BUTTON_ENABLED) {

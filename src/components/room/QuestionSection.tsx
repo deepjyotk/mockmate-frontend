@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -40,7 +42,7 @@ const QuestionSection: React.FC<QuestionSectionProps> = ({ question }) => {
         const text = await response.text();
         setMarkdownContent(text);
       } catch (err) {
-        if (err.name !== 'AbortError') {
+        if (err instanceof Error && err.name !== 'AbortError') {
           setError(err.message || 'An unexpected error occurred.');
         }
       } finally {

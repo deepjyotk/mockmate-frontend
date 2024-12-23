@@ -22,7 +22,7 @@ axiosWebSocketServiceClient.interceptors.request.use(
     // Use AxiosHeaders to set headers dynamically
     if (accessToken) {
       if (!config.headers) {
-        config.headers = {};
+        // config.headers = {};
       }
 
       config.headers['Authorization'] = `Bearer ${accessToken}`;
