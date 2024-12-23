@@ -1,12 +1,13 @@
+import { NextPage } from "next";
 import InterviewFeedbackClient from "@/components/feedback/InterviewFeedbackClient";
 
-interface PageProps {
+interface Props {
   params: {
     roomHash: string;
   };
 }
 
-const InterviewFeedbackPage = ({ params }: PageProps) => {
+const InterviewFeedbackPage: NextPage<Props> = ({ params }) => {
   console.log("room hash:", params.roomHash);
 
   return (
