@@ -1,19 +1,17 @@
 import InterviewFeedbackClient from "@/components/feedback/InterviewFeedbackClient";
 
-
-
-interface Params {
-  roomHash: string;
+interface PageProps {
+  params: {
+    roomHash: string;
+  };
 }
 
-const InterviewFeedbackPage = async ({ params }: { params: Params; }) => {
+const InterviewFeedbackPage = ({ params }: PageProps) => {
+  console.log("room hash:", params.roomHash);
 
-    // const { roomHash } = useParams(); // Access the dynamic route parameter
-
-console.log("room hash:" + params.roomHash);
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 text-gray-800">
-        <InterviewFeedbackClient roomID={params.roomHash} />
+      <InterviewFeedbackClient roomID={params.roomHash} />
     </div>
   );
 };
