@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-import { NextPage } from "next";
 import InterviewFeedbackClient from "@/components/feedback/InterviewFeedbackClient";
 
 interface Props {
@@ -9,12 +8,14 @@ interface Props {
   };
 }
 
-const InterviewFeedbackPage: NextPage<Props> = ({ params }) => {
-  console.log("room hash:", params.roomHash);
+const InterviewFeedbackPage = async ({ params }: { params: Promise<{ roomHash: string }> }) => {
+  const resolvedParams = await params;
+
+  console.log("room hash:", resolvedParams.roomHash);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 text-gray-800">
-      <InterviewFeedbackClient roomID={params.roomHash} />
+      <InterviewFeedbackClient roomID={resolvedParams.roomHash} />
     </div>
   );
 };
