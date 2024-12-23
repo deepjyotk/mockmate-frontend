@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-invalid-params */
+
 import { NextPage } from "next";
 import InterviewFeedbackClient from "@/components/feedback/InterviewFeedbackClient";
 
