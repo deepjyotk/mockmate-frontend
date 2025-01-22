@@ -10,7 +10,6 @@ import {
   setRolesTargeting,
   setRelevantWorkExperience,
   submitSignup,
-  verifyOtpAndRegister,
   setOTP,
   signupRequestType,
 } from "@/redux/slices/auth/signupSlice";
@@ -31,6 +30,7 @@ const experienceOptions = Array.from({ length: 11 }, (_, i) => ({
 const SignupForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     otp,
     username,
     email,

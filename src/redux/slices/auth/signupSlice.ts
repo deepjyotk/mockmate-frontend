@@ -59,6 +59,7 @@ export const submitSignup = createAsyncThunk<
   signupRequestType,
   {
     state: { signup: typeof initialState };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch: any;
     rejectValue: string;
   }
@@ -178,6 +179,7 @@ const signupSlice = createSlice({
       })
       .addCase(
         requestOTPThunk.fulfilled,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (state, action: PayloadAction<SignupResponseModel>) => {
           state.status = "succeeded";
           state.error = null;

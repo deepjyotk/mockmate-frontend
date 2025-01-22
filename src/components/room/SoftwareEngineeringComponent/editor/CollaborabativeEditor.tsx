@@ -128,6 +128,7 @@ export function CollaborativeEditor({ setOutput }: CollaborativeEditorProps) {
     throw new Error("Submission timed out.");
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleApiError = (error:any) => {
     if (error.response) {
       const { status, data } = error.response;

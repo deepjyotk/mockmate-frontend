@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SwapRoleButton = ({role}:any) => {
   const router = useRouter(); // Make sure it's inside a React component
   
