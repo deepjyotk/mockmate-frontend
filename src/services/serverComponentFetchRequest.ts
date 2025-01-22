@@ -13,22 +13,22 @@ const serverComponentFetchRequest = async (
 ): Promise<SuccessfulResponseModel | ExceptionResponseModel> => {
   
   // Access cookies synchronously
-  const cookieStore = cookies(); // Fetch cookies synchronously
-  const accessToken = (await cookieStore).get("accessToken")?.value; // Retrieve the "accessToken" cookie value
 
-  const headers = {
-    ...(options.headers || {}),
-    ...(accessToken
-      ? { Authorization: `Bearer ${accessToken}` }
-      : {}),
-    "Content-Type": "application/json", // Add default content type
-  };
+  
+  const cookieStore = cookies();
+  const serializedCookies = cookieStore?.toString();
 
   const fetchOptions: RequestInit = {
+    
     ...options,
-    headers,
-  };
+    credentials: 'include',  // Ensures cookies are sent cross-origin
+    headers: {
+      ...options.headers, // Existing headers
+      Cookie: serializedCookies, // Add Cookie header
+    },
 
+  };
+  
  const url = `${backendBaseUrl}/${endpoint}`;
 
   try {

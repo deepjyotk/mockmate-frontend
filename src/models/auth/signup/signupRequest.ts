@@ -1,4 +1,5 @@
 export interface SignupRequest {
+  otp: string;
   username: string;
   email: string;
   password: string;

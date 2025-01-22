@@ -52,8 +52,7 @@ const InterviewLayout = ({ roomId, interviewId, roomPayload }: InterviewLayoutPr
     const tenMinutesInMs = 10 * 60 * 1000;
     const timeDiff = Math.abs(currentTime.getTime() - interviewEndTime.getTime());
 
-
-    //TODO: By passing --> future remove
+    // TODO: By passing --> future remove
     if (true || currentTime > interviewEndTime || timeDiff > tenMinutesInMs) {
       router.push(`/interviewfeedback/${encodeURIComponent(roomId)}/`);
     } else {
@@ -62,7 +61,21 @@ const InterviewLayout = ({ roomId, interviewId, roomPayload }: InterviewLayoutPr
   }, [roomId, roomPayload.roomDetails.interviewEndTime, router]);
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:9090/ws");
+    // Retrieve the WebSocket service base URL from environment variables
+    
+    const webSocketBaseUrl = process.env.NEXT_PUBLIC_WEB_SOCKET_SERVICE_BASE_URL;
+    // const webSocketBaseUrl = "http://localhost:9090";
+
+    // console.log("webSocketBaseUrl1 "+ webSocketBaseUrl1);
+    console.log("webSocketBaseUrl "+ webSocketBaseUrl);
+
+
+    if (!webSocketBaseUrl) {
+      console.error("WebSocket service base URL is not defined.");
+      return;
+    }
+
+    const socket = new SockJS(`${webSocketBaseUrl}/ws`);
     const stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
@@ -75,12 +88,19 @@ const InterviewLayout = ({ roomId, interviewId, roomPayload }: InterviewLayoutPr
         subscriptionRef.current = stompClient.subscribe(`/topic/room/${roomId}`, (message: IMessage) => {
           try {
             const payload: ChangeInterviewRoleResponseDTO = JSON.parse(message.body);
-            const currentUserRole = payload.peer1.interviewId.toString() === interviewId ? payload.peer1.interviewRole : payload.peer2.interviewRole;
+            const currentUserRole =
+              payload.peer1.interviewId.toString() === interviewId
+                ? payload.peer1.interviewRole
+                : payload.peer2.interviewRole;
             setIsInterviewerRole(currentUserRole === "Interviewer");
           } catch (error) {
             console.error("Error parsing message body:", error);
           }
         });
+      },
+      onStompError: (frame) => {
+        console.error('Broker reported error: ' + frame.headers['message']);
+        console.error('Additional details: ' + frame.body);
       },
     });
 
@@ -102,15 +122,21 @@ const InterviewLayout = ({ roomId, interviewId, roomPayload }: InterviewLayoutPr
     }
   }, [roomId, interviewId]);
 
-  const navbarRoleText = isInterviewerRole ? "Interviewer (You will ask questions to your peer)" : "Interviewee (Your peer will ask you questions)";
+  const navbarRoleText = isInterviewerRole
+    ? "Interviewer (You will ask questions to your peer)"
+    : "Interviewee (Your peer will ask you questions)";
 
   return (
     <div className="relative">
       <RoomNav navbarRoleText={navbarRoleText} handleSwapRole={handleSwapRole} />
-      <RoomMainComponent roomId={roomId} 
-      roomPayload={roomPayload} isInterviewerRole={isInterviewerRole} 
-      dividerPosition={dividerPosition} handleMouseDown={handleMouseDown} 
-      handleEndCall={handleEndCall} />
+      <RoomMainComponent
+        roomId={roomId}
+        roomPayload={roomPayload}
+        isInterviewerRole={isInterviewerRole}
+        dividerPosition={dividerPosition}
+        handleMouseDown={handleMouseDown}
+        handleEndCall={handleEndCall}
+      />
     </div>
   );
 };

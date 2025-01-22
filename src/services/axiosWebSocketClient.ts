@@ -1,5 +1,3 @@
-// src/services/axiosWebSocketServiceClient.ts
-
 'use client';
 
 import axios from 'axios';
@@ -8,7 +6,7 @@ import Cookies from 'js-cookie'; // For client-side cookie handling
 
 // Create an Axios instance for WebSocket services
 const axiosWebSocketServiceClient = axios.create({
-  baseURL: appConfig.wsServiceBaseUrl, // WebSocket Service Base URL
+  baseURL: appConfig.wsServiceBaseUrl + "/api", // WebSocket Service Base URL
   headers: {
     'Content-Type': 'application/json',
   },

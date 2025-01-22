@@ -115,11 +115,11 @@ const loginSlice = createSlice({
         state.error = null;
         if (action.payload) {
           // localStorage.setItem("accessToken", action.payload.token);
-          Cookies.set('accessToken', action.payload.token, {
-            expires: 7, // Expires in 7 days
-            path: '/', // Cookie available throughout the site
-            // sameSite: 'strict', // Protect against CSRF
-          });
+          // Cookies.set('accessToken', action.payload.token, {
+          //   expires: 7, // Expires in 7 days
+          //   path: '/', // Cookie available throughout the site
+          //   // sameSite: 'strict', // Protect against CSRF
+          // });
         }
       })
       .addCase(loginUser.rejected, (state, action) => {

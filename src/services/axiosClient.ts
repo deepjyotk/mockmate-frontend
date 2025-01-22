@@ -1,35 +1,26 @@
 'use client';
-// src/services/axiosClient.ts
+
 import axios from 'axios';
 import { appConfig } from '@/config/appConfig';
-import Cookies from 'js-cookie'; // For client-side cookie handling
-
 
 // Create an Axios instance
 const axiosClient = axios.create({
-  baseURL: appConfig.apiBaseUrl,  // Use your API base URL
+  baseURL: appConfig.apiBaseUrl, // Use your API base URL
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Enable sending cookies with requests
 });
 
-// Request interceptor to add the token to headers
+// Request interceptor to handle any request-specific logic
 axiosClient.interceptors.request.use(
   async (config) => {
-    const accessToken = Cookies.get('accessToken'); // Retrieve the token from client-side cookies
-
-    // Use AxiosHeaders to set headers dynamically
-    if (accessToken) {
-      if (!config.headers) {
-        config.headers = new axios.AxiosHeaders();
-      }
-
-      config.headers.set('Authorization', `Bearer ${accessToken}`);
-    }
+    // Since we're using HTTP-only cookies, there's no need to manually set the Authorization header
+    // The browser will automatically include the cookie in requests
 
     // Ensure the Content-Type header is always set
     if (config.headers) {
-      config.headers.set('Content-Type', 'application/json');
+      config.headers['Content-Type'] = 'application/json';
     }
 
     return config;
@@ -39,14 +30,15 @@ axiosClient.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle 404 or 401 errors for expired tokens
+// Response interceptor to handle responses and errors globally
 axiosClient.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
     if (error.response) {
-      console.log(error.response);
+      console.error("API Error:", error.response);
+      // You can handle specific status codes here (e.g., 401, 403) if needed
     }
     return Promise.reject(error);
   }

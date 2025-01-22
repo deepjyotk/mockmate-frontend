@@ -71,8 +71,6 @@ QuestionResponsePayloadModel, // Return type
       if ("error" in response) {
         return rejectWithValue(response.message);
       }
-
-
       return response.payload as QuestionResponsePayloadModel;
     } catch (err: any) {
       return rejectWithValue(err.response?.data || "An error occurred.");
@@ -143,6 +141,7 @@ const upcomingInterviewSectionSlice = createSlice({
       state.upcomingInterviews = action.payload;
       state.status = Status.Success;
       state.error = null;
+    
     },
     decrementAllCountdowns: (state) => {
         state.upcomingInterviews.forEach((interview) => {
@@ -192,5 +191,4 @@ const upcomingInterviewSectionSlice = createSlice({
 });
 
 export const { initializeScheduleState , decrementAllCountdowns} = upcomingInterviewSectionSlice.actions;
-
 export default upcomingInterviewSectionSlice.reducer;

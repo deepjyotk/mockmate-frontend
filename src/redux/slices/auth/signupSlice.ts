@@ -1,41 +1,70 @@
+// signupSlice.ts
+
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { SignupRequest } from "@/models/auth/signup/signupRequest";
-import Cookies from 'js-cookie';
 import { SignupResponseModel } from "@/models/auth/signup/signupResponse";
 import { ExceptionResponseModel } from "@/models/global/ExceptionResponseModel";
 import { axiosPostRequest } from "@/services/axiosService";
 
+export enum signupRequestType {
+  requestOTP,
+  verifyOtpAndRegister
+}
 
-export const signupUser = createAsyncThunk<
+// Async thunk for user signup
+export const requestOTPThunk = createAsyncThunk<
   SignupResponseModel,
   SignupRequest,
   { rejectValue: string }
->("auth/signupUser", async (credentials, { rejectWithValue }) => {
+>("auth/requestOTPThunk", async (credentials, { rejectWithValue }) => {
   try {
-    const data = (await axiosPostRequest('/auth/register', credentials) );
+    const data = await axiosPostRequest('/auth/request-otp', credentials);
 
-    if("error" in data) {
-       const error = data as ExceptionResponseModel ;
-      return rejectWithValue( error.message || "Signup failed");
+    if ("error" in data) {
+      const error = data as ExceptionResponseModel;
+      return rejectWithValue(error.message || "Signup failed");
     }
-    
-    return data.payload as SignupResponseModel ;
-  } catch  {
+
+    // Assuming the server sets the HTTP-only cookie here
+    return data.payload as SignupResponseModel;
+  } catch {
     return rejectWithValue("Signup failed");
   }
 });
 
+// Async thunk for user signup
+export const verifyOtpAndRegister = createAsyncThunk<
+  SignupResponseModel,
+  SignupRequest,
+  { rejectValue: string }
+>("auth/verifyOtpAndRegister", async (credentials, { rejectWithValue }) => {
+  try {
+    const data = await axiosPostRequest('/auth/verify-otp-and-register', credentials);
+
+    if ("error" in data) {
+      const error = data as ExceptionResponseModel;
+      return rejectWithValue(error.message || "Signup failed");
+    }
+
+    // Assuming the server sets the HTTP-only cookie here
+    return data.payload as SignupResponseModel;
+  } catch {
+    return rejectWithValue("Signup failed");
+  }
+});
+
+// Async thunk for submitting signup with validation
 export const submitSignup = createAsyncThunk<
   void,
-  void,
+  signupRequestType,
   {
     state: { signup: typeof initialState };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch: any;
     rejectValue: string;
   }
->("auth/submitSignup", async (_, { getState, dispatch, rejectWithValue }) => {
+>("auth/submitSignup", async (typeReq, { getState, dispatch, rejectWithValue }) => {
   const {
+    otp ,
     username,
     email,
     password,
@@ -44,6 +73,7 @@ export const submitSignup = createAsyncThunk<
     relevantWorkExperience,
   } = getState().signup;
 
+  // Client-side validations
   if (!username || username.length < 3) {
     return rejectWithValue("Username must be at least 3 characters long.");
   }
@@ -61,6 +91,7 @@ export const submitSignup = createAsyncThunk<
   }
 
   const signupRequest: SignupRequest = {
+    otp,
     username,
     email,
     password,
@@ -71,10 +102,18 @@ export const submitSignup = createAsyncThunk<
     relevantWorkExperience,
   };
 
-  await dispatch(signupUser(signupRequest));
+  if(typeReq == signupRequestType.requestOTP){
+    await dispatch(requestOTPThunk(signupRequest));
+  }else{
+    await dispatch(verifyOtpAndRegister(signupRequest));
+  }
 });
 
+
+
+// Define the initial state for signup
 interface SignupState {
+  otp: string; 
   username: string;
   email: string;
   password: string;
@@ -86,6 +125,7 @@ interface SignupState {
 }
 
 const initialState: SignupState = {
+  otp:"", 
   username: "",
   email: "",
   password: "",
@@ -96,10 +136,15 @@ const initialState: SignupState = {
   error: null,
 };
 
+// Create the signup slice
 const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
+    setOTP: (state, action: PayloadAction<string>) => {
+      state.otp = action.payload;
+      state.error = null;
+    },
     setUsername: (state, action: PayloadAction<string>) => {
       state.username = action.payload;
       state.error = null;
@@ -127,34 +172,29 @@ const signupSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(signupUser.pending, (state) => {
+      .addCase(requestOTPThunk.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(signupUser.fulfilled, (state, action: PayloadAction<SignupResponseModel>) => {
-        state.status = "succeeded";
-        state.error = null;
-        if (action.payload.token) {
-          // localStorage.setItem("accessToken", action.payload.token);
-          Cookies.set('accessToken', action.payload.token, {
-            expires: 7, // Expires in 7 days
-            path: '/', // Cookie available throughout the site
-            // sameSite: 'strict', // Protect against CSRF
-          });
+      .addCase(
+        requestOTPThunk.fulfilled,
+        (state, action: PayloadAction<SignupResponseModel>) => {
+          state.status = "succeeded";
+          state.error = null;
+          // Removed the client-side cookie setting
+          // The server should set the HTTP-only cookie
         }
-      })
-      .addCase(signupUser.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload || "Signup failed";
-      })
-      .addCase(submitSignup.rejected, (state, action) => {
+      )
+      .addCase(requestOTPThunk.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || "Validation failed";
       });
   },
 });
 
+// Export actions and reducer
 export const {
+  setOTP,
   setUsername,
   setEmail,
   setPassword,
