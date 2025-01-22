@@ -182,6 +182,7 @@ const signupSlice = createSlice({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (state, action: PayloadAction<SignupResponseModel>) => {
           state.status = "succeeded";
+          
           state.error = null;
           // Removed the client-side cookie setting
           // The server should set the HTTP-only cookie
