@@ -48,7 +48,7 @@ const serverComponentFetchRequest = async (
   } catch (error) {
     console.error("Error fetching data:", error);
 
-    
+     
     // Return a constructed ExceptionModel
     return {
       timestamp: new Date().toISOString(),
