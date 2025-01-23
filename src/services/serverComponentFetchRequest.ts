@@ -14,9 +14,13 @@ const serverComponentFetchRequest = async (
   
   // Access cookies synchronously
 
+  const cookieStore = await  cookies();
+  const userCookies = Array.from(cookieStore.getAll() || [])
+    .map((c) => `${c.name}=${encodeURIComponent(c.value)}`)
+    .join('; ');
   
-  const cookieStore = await cookies();
-  const serializedCookies = cookieStore?.toString();
+  // const cookieStore = await cookies();
+  // const serializedCookies = cookieStore?.toString();
 
   const fetchOptions: RequestInit = {
     
@@ -24,7 +28,7 @@ const serverComponentFetchRequest = async (
     credentials: 'include',  // Ensures cookies are sent cross-origin
     headers: {
       ...options.headers, // Existing headers
-      Cookie: serializedCookies, // Add Cookie header
+      Cookie: userCookies,
     },
 
   };
