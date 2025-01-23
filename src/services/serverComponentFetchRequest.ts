@@ -15,7 +15,7 @@ const serverComponentFetchRequest = async (
   // Access cookies synchronously
 
   
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const serializedCookies = cookieStore?.toString();
 
   const fetchOptions: RequestInit = {
