@@ -46,14 +46,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.json({ error: 'Logout failed' }, { status: 500 }); 
     }
 
-
     const response = NextResponse.redirect(loginUrl);
-
-    // 🔥 Delete accessToken cookie
-    response.cookies.set('accessToken', '', {
-      path: '/', // Clear the cookie for the entire site
-      maxAge: 0,  // Expire the cookie immediately
-    });
 
     return response;
   }
