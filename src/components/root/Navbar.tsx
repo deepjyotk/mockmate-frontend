@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppDispatch } from "@/redux/hooks";
 import { resetLoginState } from "@/redux/slices/auth/loginSlice";
+import { axiosPostRequest } from "@/services/axiosService";
 
 interface NavbarProps {
   username: string;
@@ -31,8 +32,11 @@ const Navbar: React.FC<NavbarProps> = ({ username, userProfileUrl }) => {
 
   const handleLogout = async () => {
     try {
-      router.replace('/auth/logout');
+      
+      const response = await axiosPostRequest('/auth/logout', {});
+      console.log(response);
       dispatch(resetLoginState()); // <-- resets status to "idle" and clears fields
+      router.replace('/auth/login');
 
     } catch (error) {
       console.error('Failed to log out:', error);

@@ -30,7 +30,6 @@ const experienceOptions = Array.from({ length: 11 }, (_, i) => ({
 const SignupForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     otp,
     username,
     email,
@@ -44,31 +43,26 @@ const SignupForm: React.FC = () => {
 
   // Local state to handle the OTP modal
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
-  // const [otpValue, setOtpValue] = useState("");
 
   const router = useRouter();
 
   // On successful signup, open the OTP modal
   useEffect(() => {
     if (status === "succeeded") {
-      // Instead of redirecting immediately, open the OTP modal
       setIsOtpModalOpen(true);
     }
   }, [status]);
 
-  // You might want to do something after validating the OTP, like:
-  // - Call another Redux action to verify the OTP
-  // - Then redirect to a dashboard or home page, etc.
+  // Handle OTP submission
   const handleOtpSubmit = () => {
-    
     dispatch(submitSignup(signupRequestType.verifyOtpAndRegister))
-    .unwrap()
-    .then(() => {
-      router.replace("/");
-    })
-    .catch((err) => {
-      console.error("OTP verification error:", err);
-    });
+      .unwrap()
+      .then(() => {
+        router.replace("/");
+      })
+      .catch((err) => {
+        console.error("OTP verification error:", err);
+      });
   };
 
   return (
@@ -215,11 +209,17 @@ const SignupForm: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white w-full max-w-sm p-6 rounded shadow-lg space-y-4">
             <h3 className="text-xl font-semibold text-gray-800">Enter OTP</h3>
+            <p className="text-gray-500 text-sm">
+              <em>
+                (Recruiters: to test the sign-up process without a real OTP,
+                please enter{" "}
+                <span className="font-bold text-gray-700">000000</span>.)
+              </em>
+            </p>
             <input
               type="text"
               className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-
-              onChange={(e) => dispatch(setOTP(e.target.value)) }
+              onChange={(e) => dispatch(setOTP(e.target.value))}
               placeholder="Enter the 6-digit code"
             />
 

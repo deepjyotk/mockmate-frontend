@@ -27,28 +27,28 @@ export async function middleware(request: NextRequest) {
   //  If the pathname is '/auth/logout', delete cookie and redirect to login
   if (pathname === '/auth/logout') {
     
-    const logoutResponse = await serverComponentFetchRequest('auth/logout', { 
-      method: 'POST', 
-      credentials: 'include',  // Ensures cookies are sent cross-origin
-      headers: { 'Content-Type': 'application/json' } 
-  });
+  //   const logoutResponse = await serverComponentFetchRequest('auth/logout', { 
+  //     method: 'POST', 
+  //     credentials: 'include',  // Ensures cookies are sent cross-origin
+  //     headers: { 'Content-Type': 'application/json' } 
+  // });
 
-  const loginUrl = new URL('/auth/login', request.url); // 👈 Absolute URL
-    // Make a POST request to /logout
-    // const logoutResponse = await fetch('/api/logout', { 
-    //     method: 'POST', 
-    //     headers: { 'Content-Type': 'application/json' } 
-    // }); 
+  // const loginUrl = new URL('/auth/login', request.url); // 👈 Absolute URL
+  //   // Make a POST request to /logout
+  //   // const logoutResponse = await fetch('/api/logout', { 
+  //   //     method: 'POST', 
+  //   //     headers: { 'Content-Type': 'application/json' } 
+  //   // }); 
 
-    if ( !("payload"  in logoutResponse) ) {
-        // Handle logout errors (e.g., log an error, show an error message)
-        console.error('Logout failed:', logoutResponse.status); 
-        return NextResponse.json({ error: 'Logout failed' }, { status: 500 }); 
-    }
+  //   if ( !("payload"  in logoutResponse) ) {
+  //       // Handle logout errors (e.g., log an error, show an error message)
+  //       console.error('Logout failed:', logoutResponse.status); 
+  //       return NextResponse.json({ error: 'Logout failed' }, { status: 500 }); 
+  //   }
 
-    const response = NextResponse.redirect(loginUrl);
+    // const response = NextResponse.redirect(loginUrl);
 
-    return response;
+    // return response;
   }
 
 
