@@ -5,6 +5,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAppDispatch } from "@/redux/hooks";
+import { resetLoginState } from "@/redux/slices/auth/loginSlice";
 
 interface NavbarProps {
   username: string;
@@ -14,6 +16,10 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ username, userProfileUrl }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+  
+
 
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
@@ -26,6 +32,8 @@ const Navbar: React.FC<NavbarProps> = ({ username, userProfileUrl }) => {
   const handleLogout = async () => {
     try {
       router.replace('/auth/logout');
+      dispatch(resetLoginState()); // <-- resets status to "idle" and clears fields
+
     } catch (error) {
       console.error('Failed to log out:', error);
     }

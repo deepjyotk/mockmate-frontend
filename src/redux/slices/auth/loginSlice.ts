@@ -102,6 +102,11 @@ const loginSlice = createSlice({
       state.password = action.payload;
       state.error = null;
     },
+    resetLoginState(state) {
+      Object.assign(state, initialState);
+      // or:
+      // return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,12 +119,6 @@ const loginSlice = createSlice({
         state.status = 'succeeded';
         state.error = null;
         if (action.payload) {
-          // localStorage.setItem("accessToken", action.payload.token);
-          // Cookies.set('accessToken', action.payload.token, {
-          //   expires: 7, // Expires in 7 days
-          //   path: '/', // Cookie available throughout the site
-          //   // sameSite: 'strict', // Protect against CSRF
-          // });
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -135,5 +134,5 @@ const loginSlice = createSlice({
 });
 
 // Export actions and reducer
-export const { setUserOrEmail, setPassword } = loginSlice.actions;
+export const { setUserOrEmail, setPassword, resetLoginState } = loginSlice.actions;
 export default loginSlice.reducer;

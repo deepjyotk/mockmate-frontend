@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1️⃣ Allow requests to public routes or static files
-  if (PUBLIC_ROUTE_SET.has(pathname) || isPublicPath(pathname)) {
+  if (PUBLIC_ROUTE_SET.has(pathname) || isPublicPath(pathname)) {    
     return NextResponse.next();
   }
 
@@ -26,14 +26,14 @@ export async function middleware(request: NextRequest) {
 
   //  If the pathname is '/auth/logout', delete cookie and redirect to login
   if (pathname === '/auth/logout') {
-    const loginUrl = new URL('/auth/login', request.url); // 👈 Absolute URL
-
     
     const logoutResponse = await serverComponentFetchRequest('auth/logout', { 
       method: 'POST', 
       credentials: 'include',  // Ensures cookies are sent cross-origin
       headers: { 'Content-Type': 'application/json' } 
   });
+
+  const loginUrl = new URL('/auth/login', request.url); // 👈 Absolute URL
     // Make a POST request to /logout
     // const logoutResponse = await fetch('/api/logout', { 
     //     method: 'POST', 
