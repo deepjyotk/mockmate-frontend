@@ -18,13 +18,12 @@ const RoomMainComponent = ({
   roomId,
   roomPayload,
   isInterviewerRole,
-  dividerPosition,
-  handleMouseDown,
   handleEndCall,
 }: RoomMainComponentProps) => {
 //   const leftPanelRef = useRef<HTMLDivElement | null>(null);
 //   const rightPanelRef = useRef<HTMLDivElement | null>(null);
 //   const dividerRef = useRef<HTMLDivElement | null>(null);
+
 
   return (
     <main className="mt-16">
@@ -39,11 +38,10 @@ const RoomMainComponent = ({
         />
       ) : (
         <BehavioralInterviewComponent
+          
           roomId={roomId}
           roomPayload={roomPayload}
           isInterviewerRole={isInterviewerRole}
-          dividerPosition={dividerPosition}
-          handleMouseDown={handleMouseDown}
           handleEndCall={handleEndCall}
         />
       )}

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -245,3 +246,4 @@ const SignupForm: React.FC = () => {
 };
 
 export default SignupForm;
+

@@ -85,7 +85,7 @@ const ViewQuestionPage = async ({params: promiseParams}: {
         <ul className="list-disc list-inside">
           {question.companies.map((company) => (
             <li key={company.companyId}>
-              Company ID: {company.companyId}, Frequency Asked: {company.frequencyAsked}, Last Asked: {" "}
+              Company Name: {company.companyName}, Frequency Asked: {company.frequencyAsked}, Last Asked: {" "}
               {company.lastAskedDate ? new Date(company.lastAskedDate).toLocaleString() : "N/A"}
             </li>
           ))}

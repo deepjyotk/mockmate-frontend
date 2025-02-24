@@ -37,7 +37,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      console.error("API Error:", error.response);
+      // console.error("API Error:", error.response);
       // You can handle specific status codes here (e.g., 401, 403) if needed
     }
     return Promise.reject(error);

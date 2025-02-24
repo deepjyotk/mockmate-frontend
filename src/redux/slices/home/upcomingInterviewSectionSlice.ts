@@ -54,7 +54,7 @@ const initialState: UpcomingInterviewSectionState = {
   error: null,
 };
 const REMAINING_TIMING_DIFF_STARTS = 3600 ;
-const JOIN_INTERVIEW_BUTTON_ENABLED = 1000 ;
+const JOIN_INTERVIEW_BUTTON_ENABLED = 60 ;
 const ALLOW_TO_JOIN_AFTER_INTERVIEW_TIME = 1000 ;
 
 

@@ -33,7 +33,7 @@ const InterviewLayout = ({ roomId, interviewId, roomPayload }: InterviewLayoutPr
   const handleMouseMove = useCallback((e: MouseEvent) => {
     const containerWidth = dividerRef.current?.parentElement?.offsetWidth || 1;
     const newDividerPosition = (e.clientX / containerWidth) * 100;
-    setDividerPosition(Math.min(80, Math.max(20, newDividerPosition)));
+    setDividerPosition(Math.min(80, Math.max(80, newDividerPosition)));
   }, []);
 
   const handleMouseUp = useCallback(() => {
@@ -52,7 +52,7 @@ const InterviewLayout = ({ roomId, interviewId, roomPayload }: InterviewLayoutPr
     const tenMinutesInMs = 10 * 60 * 1000;
     const timeDiff = Math.abs(currentTime.getTime() - interviewEndTime.getTime());
 
-    // TODO: By passing --> future remove
+  
     if (true || currentTime > interviewEndTime || timeDiff > tenMinutesInMs) {
       router.push(`/interviewfeedback/${encodeURIComponent(roomId)}/`);
     } else {

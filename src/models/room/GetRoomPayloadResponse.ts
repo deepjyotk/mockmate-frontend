@@ -35,6 +35,7 @@ export interface GetRoomPayloadResponse {
         companyID: number; 
         frequencyAsked: string;
         lastAskedDate: string | null;
+        companyName: string;
       }[];
     
   }
